@@ -10,9 +10,13 @@ import UIKit
 
 class RecipeDetailViewController: UIViewController {
 
+    var Recipe:String!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        self.navigationItem.title = Recipe;
+        
         // Do any additional setup after loading the view.
     }
 
