@@ -23,6 +23,43 @@ class RecipeListTableViewController: UITableViewController {
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
     }
     
+    // fires when a user click's the '+' button
+    @IBAction func addRecipeButtonClick(_ sender: UIBarButtonItem) {
+        
+        let alertController = UIAlertController(title: "Add", message: "Add another recipe" , preferredStyle: .alert);
+        
+        // add's a text field
+        alertController.addTextField { (testField) in
+            
+        }
+        
+        // Add the "Save" button
+        alertController.addAction(UIAlertAction(title: "Save", style: .default, handler: { (alertAction) in
+            
+            // since we just added the textbox, it should be there added the
+            if let textBox = alertController.textFields?.first{
+                
+                // grab the text
+                let newRecipeText = textBox.text!;
+                
+                // and add it to the collection
+                self.recipes.append(newRecipeText);
+               
+                // tell the view controller the data has changed.
+                self.tableView.reloadData();
+               
+                
+            }
+        }));
+        
+        // add the "cancel" button, note we aren't adding a handler, because we don't care to do anything if the click it.
+        alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil));
+        
+        
+        self.present(alertController, animated: true, completion: nil);
+        
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.

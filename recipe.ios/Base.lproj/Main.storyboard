@@ -62,7 +62,13 @@
                             <outlet property="delegate" destination="idZ-z7-jOU" id="D2I-0l-9nG"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Recipes" id="DHz-9e-2NC"/>
+                    <navigationItem key="navigationItem" title="Recipes" id="DHz-9e-2NC">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="ab7-pF-Wxg">
+                            <connections>
+                                <action selector="addRecipeButtonClick:" destination="idZ-z7-jOU" id="i2a-ff-sHY"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hJv-x9-IkG" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
