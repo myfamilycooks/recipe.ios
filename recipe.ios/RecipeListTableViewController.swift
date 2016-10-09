@@ -12,15 +12,88 @@ class RecipeListTableViewController: UITableViewController {
     
     // hard coding data source for now. This should come from a Network data service.
     var recipes = ["Pizza", "Pork chops", "Cookies", "Chicken Parm", "Alaska Salmon Bake with Pecan Crunch Coating"];
+    var recipeHeaders = [RecipeHeader]();
+    var recipeService = RecipeNetworkService();
+    var activityIndicator : UIActivityIndicatorView = UIActivityIndicatorView();
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // show a spinner
+        self.showSpinnerAndFreezeApplication();
+        
+        recipeService.getRecipeHeaders { (succeeded, message, recipeheaders) in
+            
+            if(!succeeded){
+                
+                // a error occured.
+                self.showSimpleAlert(title: "Error", message: message);
+                
+                // remove the spinner, and start responding to UI events.
+                self.stopSpinnerAndAllowAppToAcceptUIEvents();
+            } else {
+            
+                OperationQueue.main.addOperation {
+                    
+                    // set the data
+                    self.recipeHeaders = recipeheaders!;
+                    
+                    // force a table refresh.
+                    self.tableView.reloadData();
+                    
+                    self.stopSpinnerAndAllowAppToAcceptUIEvents();
+                    
+                }
+            }
+        }
         
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
         
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+    }
+    
+    func showSimpleAlert(title:String, message:String){
+    
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert);
+        
+        // add a dismiss action.
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
+            
+            // just dismiss the alert
+            alert.dismiss(animated: true, completion: nil);
+        }))
+        
+        // finally show the alert to the user.
+        self.present(alert, animated: true, completion: nil);
+        
+        
+    }
+    
+    func showSpinnerAndFreezeApplication(){
+        
+        self.activityIndicator = UIActivityIndicatorView(frame: self.view.frame);
+        self.activityIndicator.backgroundColor = UIColor(white: 1.0, alpha: 0.5);
+        self.activityIndicator.center = self.view.center;
+        self.activityIndicator.hidesWhenStopped = true;
+        self.activityIndicator.activityIndicatorViewStyle = .gray;
+        self.view.addSubview(self.activityIndicator);
+        self.activityIndicator.startAnimating();
+        
+        // stop the application from accepting touch events.
+        UIApplication.shared.beginIgnoringInteractionEvents();
+        
+    }
+    
+    func stopSpinnerAndAllowAppToAcceptUIEvents(){
+    
+        self.stopSpinner();
+        UIApplication.shared.endIgnoringInteractionEvents();
+    }
+    
+    func stopSpinner(){
+        self.activityIndicator.stopAnimating();
     }
     
     // fires when a user click's the '+' button
@@ -74,7 +147,7 @@ class RecipeListTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return recipes.count
+        return recipeHeaders.count
         
     }
     
@@ -86,7 +159,8 @@ class RecipeListTableViewController: UITableViewController {
         
         // set the chevron and the title of the
         cell.accessoryType = UITableViewCellAccessoryType.disclosureIndicator;
-        cell.textLabel?.text = recipes[indexPath.row];
+        //cell.textLabel?.text = recipes[indexPath.row];
+        cell.textLabel?.text = recipeHeaders[indexPath.row].name;
         
         return cell;
         
@@ -104,7 +178,7 @@ class RecipeListTableViewController: UITableViewController {
             if let viewController = segue.destination as? RecipeDetailViewController {
                 
                 // pass the recipe to the next view controller.
-                viewController.Recipe = recipes[indexRowSelected];
+                viewController.recipeHeader = recipeHeaders[indexRowSelected];
             }
         }
     }

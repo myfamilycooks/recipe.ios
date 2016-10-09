@@ -9,31 +9,49 @@
 import UIKit
 
 class RecipeDetailViewController: UIViewController {
-
-    var Recipe:String!
+    
+    var recipeHeader:RecipeHeader!;
+    var recipe:Recipe!
+    var activityIndicator : UIActivityIndicatorView = UIActivityIndicatorView();
+    var recipeService = RecipeNetworkService();
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        self.navigationItem.title = Recipe;
         
-        // Do any additional setup after loading the view.
+        self.navigationItem.title = recipeHeader.name;
+        
+        //self.recipeService.
+        
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    func showSpinnerAndFreezeApplication(){
+        
+        self.activityIndicator = UIActivityIndicatorView(frame: self.view.frame);
+        self.activityIndicator.backgroundColor = UIColor(white: 1.0, alpha: 0.5);
+        self.activityIndicator.center = self.view.center;
+        self.activityIndicator.hidesWhenStopped = true;
+        self.activityIndicator.activityIndicatorViewStyle = .gray;
+        self.view.addSubview(self.activityIndicator);
+        self.activityIndicator.startAnimating();
+        
+        // stop the application from accepting touch events.
+        UIApplication.shared.beginIgnoringInteractionEvents();
+        
     }
-    */
-
+    
+    func stopSpinnerAndAllowAppToAcceptUIEvents(){
+        
+        self.stopSpinner();
+        UIApplication.shared.endIgnoringInteractionEvents();
+    }
+    
+    func stopSpinner(){
+        self.activityIndicator.stopAnimating();
+    }
+    
 }
