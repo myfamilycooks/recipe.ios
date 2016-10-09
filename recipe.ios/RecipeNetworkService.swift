@@ -7,16 +7,45 @@
 //
 
 import Foundation
+import UIKit;
 
 public class RecipeNetworkService: NetworkService{
     
     var baseUrl:String
     
     override init() {
-        self.baseUrl = Configuration.getWebUrl();
+        self.baseUrl = Configuration.webUrl;
     }
     
-    func getRecipeHeaders(getComplete:@escaping (_ succeeded:Bool, _ message:String, _ posts:[RecipeHeader]?)->()){
+    let session: URLSession = {
+        let config = URLSessionConfiguration.default;
+        return URLSession(configuration: config);
+    }();
+    
+    func getRecipe(recipeId:Int, getComplete:@escaping (_ succeeded:Bool, _ message: String, _ recipe:Recipe?)->()){
+    
+        let url = "\(self.baseUrl)/api/recipe/\(recipeId)";
+        
+        self.performNetworkCall(url: url, httpMethod: "GET", postParameters: nil) { (succeeded, message, jsonObject) in
+            
+            if(!succeeded){
+                // error case
+                getComplete(false, message, nil);
+            } else{
+                
+                // try to deserialize the response
+                do{
+                    let json = try JSONSerialization.jsonObject(with: jsonObject!, options: []) as? AnyObject;
+                    let recipe = self.convertJsonToRecipe(json: json!);
+                    getComplete(true, "Success", recipe);
+                } catch{
+                    getComplete(false,"Unable to serialize: \(error)", nil);
+                }
+            }
+        }
+    }
+    
+    func getRecipeHeaders(getComplete:@escaping (_ succeeded:Bool, _ message:String, _ recipeHeaders:[RecipeHeader]?)->()){
         
         let url = "\(self.baseUrl)/api/recipeheader";
         
@@ -45,6 +74,51 @@ public class RecipeNetworkService: NetworkService{
         
     }
     
+    func getImage(imageUrl:String, completion: @escaping (UIImage) -> Void){
+    
+        let url = URL(string: imageUrl);
+        let request = URLRequest(url: url!);
+        //var session = URLSession
+        let task = self.session.dataTask(with: request) { (data, response, error) in
+            
+            let result = self.processImageRequest(data: data, error: error);
+            
+            completion(result!);
+        }
+        
+        task.resume();
+        
+    }
+    
+    private func processImageRequest(data: Data?, error: Error?)-> UIImage?{
+        guard
+            let imageData = data,
+            let image = UIImage(data:imageData) else{
+                // handle error
+                return nil;
+        }
+        
+        return image;
+        
+    }
+    
+    private func convertJsonToRecipe(json:AnyObject) -> Recipe?{
+        guard
+            let recipeId = json["recipeId"] as? Int,
+            let name = json["name"] as? String,
+            let description = json["description"] as? String,
+            let imageUrl = json["imageUrl"] as? String else{
+                
+                // if the guard failed, then the json object was not in the shape we thought it was.
+                return nil;
+        
+        }
+        
+        let recipe = Recipe(recipeId: recipeId, name: name, description: description, ImageUrl: imageUrl);
+        
+        return recipe;
+    }
+    
     private func convertJsonToRecipeHeaders(json:AnyObject) -> [RecipeHeader]{
         
         var recipeHeaders = [RecipeHeader]();
@@ -59,8 +133,8 @@ public class RecipeNetworkService: NetworkService{
     }
     
     private func convertJsonToRecipeHeader(json:AnyObject) -> RecipeHeader?{
-        guard let
-            recipeId = json["recipeId"] as? Int,
+        guard
+            let recipeId = json["recipeId"] as? Int,
             let name = json["name"] as? String else{
         
                 // if the guard failed, then the json object was not in the shape we thought it was.

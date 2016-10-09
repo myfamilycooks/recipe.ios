@@ -9,10 +9,13 @@
 import Foundation
 
 public class Configuration{
-
-    class func getWebUrl()-> String {
-        
-        return "http://apollo:85"
+    
+    
+    // TODO: pull these from the pList.
+    
+    static var webUrl: String{
+        get{
+            return "http://apollo:85"
+        }
     }
-
 }

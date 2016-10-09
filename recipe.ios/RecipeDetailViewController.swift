@@ -10,6 +10,10 @@ import UIKit
 
 class RecipeDetailViewController: UIViewController {
     
+    @IBOutlet weak var recipeImageView: UIImageView!
+    
+    @IBOutlet weak var recipeDescriptionTextView: UITextView!
+    
     var recipeHeader:RecipeHeader!;
     var recipe:Recipe!
     var activityIndicator : UIActivityIndicatorView = UIActivityIndicatorView();
@@ -20,9 +24,49 @@ class RecipeDetailViewController: UIViewController {
         
         self.navigationItem.title = recipeHeader.name;
         
-        //self.recipeService.
+        self.recipeService.getRecipe(recipeId: recipeHeader.recipeId) { (succeeded, message, recipe) in
+            
+            if(!succeeded){
+                // a error occured.
+                self.showSimpleAlert(title: "Error", message: message);
+                
+                // remove this spinner, and start responding to UI Events.
+                self.stopSpinnerAndAllowAppToAcceptUIEvents();
+            } else {
+            
+                OperationQueue.main.addOperation {
+                    
+                    // set the data
+                    self.recipeDescriptionTextView.text = recipe?.description;
+                    
+                    //let imageData = Data(
+                    self.recipeService.getImage(imageUrl: recipe!.ImageUrl, completion: { (image) in
+                        self.recipeImageView.image = image
+                    })
+                    
+                    self.stopSpinnerAndAllowAppToAcceptUIEvents();
+                }
+            }
+        }
+    }
+    
+    func showSimpleAlert(title:String, message:String){
+        
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert);
+        
+        // add a dismiss action.
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
+            
+            // just dismiss the alert
+            alert.dismiss(animated: true, completion: nil);
+        }))
+        
+        // finally show the alert to the user.
+        self.present(alert, animated: true, completion: nil);
+        
         
     }
+
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

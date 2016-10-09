@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -19,22 +20,37 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Coming soon....." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MyZ-xD-6J6">
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ZIC-Xv-BPj">
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="ZIC-Xv-BPj" secondAttribute="height" multiplier="241:190" id="eMf-7m-260"/>
+                                </constraints>
+                            </imageView>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="pUp-ji-jE4">
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="MyZ-xD-6J6" firstAttribute="leading" secondItem="dyw-Pb-C94" secondAttribute="leadingMargin" id="Ec7-FJ-fi1"/>
-                            <constraint firstItem="MyZ-xD-6J6" firstAttribute="top" secondItem="NB9-z4-Jx7" secondAttribute="bottom" constant="30" id="oDe-1t-bKf"/>
+                            <constraint firstItem="ZIC-Xv-BPj" firstAttribute="leading" secondItem="dyw-Pb-C94" secondAttribute="leadingMargin" constant="50" id="4qZ-LM-Xv1"/>
+                            <constraint firstItem="ZIC-Xv-BPj" firstAttribute="top" secondItem="NB9-z4-Jx7" secondAttribute="bottom" constant="10" id="Lcj-sQ-Oeu"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="ZIC-Xv-BPj" secondAttribute="trailing" constant="50" id="cQI-df-LB9"/>
+                            <constraint firstItem="pUp-ji-jE4" firstAttribute="trailing" secondItem="dyw-Pb-C94" secondAttribute="trailingMargin" id="cUk-oD-23o"/>
+                            <constraint firstItem="pUp-ji-jE4" firstAttribute="top" secondItem="ZIC-Xv-BPj" secondAttribute="bottom" constant="49.5" id="oAD-MJ-ZC9"/>
+                            <constraint firstAttribute="bottom" secondItem="pUp-ji-jE4" secondAttribute="bottom" constant="20" symbolic="YES" id="pFJ-pn-Tce"/>
+                            <constraint firstItem="pUp-ji-jE4" firstAttribute="leading" secondItem="dyw-Pb-C94" secondAttribute="leadingMargin" id="tnp-7R-ecC"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="recipeDescriptionTextView" destination="pUp-ji-jE4" id="HJJ-Yq-oqk"/>
+                        <outlet property="recipeImageView" destination="ZIC-Xv-BPj" id="d9W-58-gXc"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="i85-YB-QH8" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1758" y="930"/>
+            <point key="canvasLocation" x="1757.5999999999999" y="929.68515742128943"/>
         </scene>
         <!--Recipes-->
         <scene sceneID="6Xf-7P-SWw">
