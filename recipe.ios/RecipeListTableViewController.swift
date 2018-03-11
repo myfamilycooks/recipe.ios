@@ -53,23 +53,8 @@ class RecipeListTableViewController: UITableViewController {
         
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
-    }
     
-    func showSimpleAlert(title:String, message:String){
     
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert);
-        
-        // add a dismiss action.
-        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
-            
-            // just dismiss the alert
-            alert.dismiss(animated: true, completion: nil);
-        }))
-        
-        // finally show the alert to the user.
-        self.present(alert, animated: true, completion: nil);
-        
-        
     }
     
     func showSpinnerAndFreezeApplication(){

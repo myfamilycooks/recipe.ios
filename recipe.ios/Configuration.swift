@@ -15,7 +15,7 @@ public class Configuration{
     
     static var webUrl: String{
         get{
-            return "http://apollo:85"
+            return "http://192.168.86.33:60679"
         }
     }
 }
