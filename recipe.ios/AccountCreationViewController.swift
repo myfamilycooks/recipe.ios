@@ -55,12 +55,12 @@ class AccountCreationViewController: UIViewController {
                     
                 } else{
                     
-                    // determine what to do next.
-                    var success = 34
-                    // show a pop-up notification of success.
-                   
+                    // show a model letting the user know they succeeded with an "ok" button.
+                    let successModal = UIAlertAction(title: "Account Created", style: UIAlertActionStyle.default, handler: nil)
+                    
+                    // on press of the OK button, dismiss this view controller.
+                    // maybe send back the userName???
                 }
-                
             })
         }
     }

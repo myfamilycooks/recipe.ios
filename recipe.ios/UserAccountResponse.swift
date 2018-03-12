@@ -16,7 +16,7 @@ public struct UserAccountResponse: Decodable{
     
     var salt:String?
     
-    var passwordFormat: String?
+    var passwordFormat: Int?
     
     var fullName:String?
     
@@ -26,6 +26,6 @@ public struct UserAccountResponse: Decodable{
     
     var id:String?
     
-    var createdDate: Date?
+   // var createdDate: Date?
     
 }
