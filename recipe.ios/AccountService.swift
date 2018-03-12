@@ -20,7 +20,9 @@ public class AccountService{
     func createAccount(login:String, fullName:String, email:String, password:String,
                        completed:@escaping(_ succeeded:Bool, _ errorMessage:String?, _ account:UserAccountResponse?) ->()){
         
-        let url = "\(self.baseUrl)/api/account/create/new/"
+        let url = "\(self.baseUrl)/api/account/new/"
+        //let url = "\(self.baseUrl)/api/testFull"
+        
         let postDictionary = self.createPostDictionary(login: login, fullName: fullName, email: email, password: password)
         
         Alamofire.request(url, method: .post, parameters: postDictionary, encoding: JSONEncoding.default)
@@ -43,14 +45,13 @@ public class AccountService{
     
     private func createPostDictionary(login:String, fullName:String, email:String, password:String)->Parameters {
         
-        let postData: Parameters = [
+        var postData = [String:Any]()
         
-        "login" : login,
-        "email" : email
-        //result["fullName"] = fullName
-        //result["password"] = password
-        //result["invitation"] = "0e1c3bfd-ca76-4d99-8965-44dad10f1f60"
-        ]
+        postData["Login"] = login
+        postData["fullName"] = fullName
+        postData["email"] = email
+        postData["password"] = password
+        postData["invitationCode"] = "0e1c3bfd-ca76-4d99-8965-44dad10f1f60"
         
         return postData
     }

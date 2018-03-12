@@ -56,6 +56,7 @@ class AccountCreationViewController: UIViewController {
                 } else{
                     
                     // determine what to do next.
+                    var success = 34
                     // show a pop-up notification of success.
                    
                 }
