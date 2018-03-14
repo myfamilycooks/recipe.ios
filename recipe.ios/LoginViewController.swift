@@ -9,27 +9,65 @@
 import UIKit
 
 class LoginViewController: UIViewController {
-
+    
+    @IBOutlet weak var userNameTextField: UITextField!
+    @IBOutlet weak var passwordTextField: UITextField!
+    let tokenService = TokenService()
+    let spinner = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.gray)
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         // Do any additional setup after loading the view.
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    @IBAction func logInButtonClick(_ sender: Any) {
+        
+        if let validationError = self.IsValid(){
+            self.showSimpleAlert(title: "Error", message: validationError)
+        }else{
+            
+            if let userName = self.userNameTextField.text,
+                let password = self.passwordTextField.text{
+                
+                // show a spinner.
+                self.showSpinner(activityIndicator: self.spinner)
+                
+                // make a call to the http endpoint.
+                self.tokenService.getToken(userName: userName, password: password, completed: { (success, errorMessage, tokenResponse) in
+                    
+                    if(success){
+                        // I assume we need to save this token in userDefaults?
+                        // where to go from here??
+                        // segue to next Viewcontroller?
+                        self.showSimpleAlert(title: "Token Received", message: tokenResponse!.token)
+                    } else {
+                        
+                        self.showSimpleAlert(title: "Error", message: errorMessage)
+                    }
+                    
+                     self.stopSpinner(activityIndicatory: self.spinner)
+                })
+            }
+        }
     }
-    */
-
+    
+    
+    func IsValid() -> String?{
+        
+        guard self.userNameTextField.text != nil else {
+            return "Enter user name."
+        }
+        
+        guard self.passwordTextField.text != nil else {
+            return "Enter password."
+        }
+        
+        return nil
+    }
 }

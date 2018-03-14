@@ -9,4 +9,6 @@
 import Foundation
 
 
-//public str
+public struct TokenResponse: Decodable{
+    var token:String?
+}

@@ -21,7 +21,6 @@ public class AccountService{
                        completed:@escaping(_ succeeded:Bool, _ errorMessage:String?, _ account:UserAccountResponse?) ->()){
         
         let url = "\(self.baseUrl)/api/account/new/"
-        //let url = "\(self.baseUrl)/api/testFull"
         
         let postDictionary = self.createPostDictionary(login: login, fullName: fullName, email: email, password: password)
         

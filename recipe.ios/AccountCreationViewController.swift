@@ -31,7 +31,7 @@ class AccountCreationViewController: UIViewController {
     @IBAction func signUpButtonClick(_ sender: Any) {
         if let error = self.isFormValid(){
             // handle form validation
-            
+            self.showSimpleAlert(title: "Not quite yet...", message: error)
         } else{
             
             // TODO: show spinner
@@ -42,6 +42,7 @@ class AccountCreationViewController: UIViewController {
             let login = self.userNameTextField.text!
             let email = self.emailTextField.text!
             let password = self.passwordTextField.text!
+            
             
             self.accountService.createAccount(login: login, fullName: fullName, email: email, password: password, completed: { (success, errorMessage, account) in
                 
@@ -56,17 +57,54 @@ class AccountCreationViewController: UIViewController {
                 } else{
                     
                     // show a model letting the user know they succeeded with an "ok" button.
-                    let successModal = UIAlertAction(title: "Account Created", style: UIAlertActionStyle.default, handler: nil)
+                    var successModal = UIAlertController(title: "Success", message: "Your account was created", preferredStyle: UIAlertControllerStyle.alert)
                     
-                    // on press of the OK button, dismiss this view controller.
-                    // maybe send back the userName???
+                    let okActionAlert = UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: { (action) in
+                        self.dismiss(animated: true, completion: nil)
+                    })
+                    
+                    successModal.addAction(okActionAlert);
+                    self.present(successModal, animated: true, completion: nil)
                 }
             })
         }
     }
     
     func isFormValid() -> String?{
-        return nil;
+        
+        // check first name
+        guard self.firstNameTextField.text != nil else {
+            return "Please enter your first name."
+        }
+        
+        // check last name
+        guard self.lastNameTextField.text != nil else  {
+            return "Please enter your last name."
+        }
+        
+        // check user name
+        guard self.userNameTextField.text != nil else {
+            return "Please pick a user name."
+        }
+        
+        // check email
+        guard self.emailTextField.text != nil else {
+            return "Please enter your email."
+        }
+        
+        
+        // check password
+        guard self.passwordTextField.text != nil else {
+            return "Please pick a password."
+        }
+        
+        // check password
+        guard self.passwordTextField.text == self.reEnterPasswordTextField.text else {
+            return "Passwords must match."
+        }
+        
+        // otherwise all passed validation.
+        return nil
     }
     
     // event that fires when the cancel button is clicked.
