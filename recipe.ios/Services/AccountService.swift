@@ -25,6 +25,7 @@ public class AccountService{
         let postDictionary = self.createPostDictionary(login: login, fullName: fullName, email: email, password: password)
         
         Alamofire.request(url, method: .post, parameters: postDictionary, encoding: JSONEncoding.default)
+            .validate(statusCode: 200...200)
             .responseJSON { (responseData) in
                 switch responseData.result{
                 case.success(let val):
@@ -36,11 +37,16 @@ public class AccountService{
                     }
                     
                 case.failure(let error):
+                    
+                    // see if we can parse the custom error
+                    if let bistroError = HttpErrorParser.parse(data: responseData.data){
+                        completed(false, bistroError.description, nil)
+                    }
+                    
                     completed(false, error.localizedDescription, nil)
                 }
         }
     }
-    
     
     private func createPostDictionary(login:String, fullName:String, email:String, password:String)->Parameters {
         

@@ -29,6 +29,11 @@ public class TokenService{
                 case.success(let val):
                     do{
                         let token = try JSONDecoder().decode(TokenResponse.self, from: responseData.data!)
+                        
+                        if let token = token.token{
+                            SecurityService.currentToken = token
+                        }
+                        
                         completed(true,nil,token)
                     } catch(let serializationError){
                         completed(false,"Serialization error: \(serializationError.localizedDescription)", nil)
@@ -48,4 +53,5 @@ public class TokenService{
         postData["password"] = password
         return postData
     }
+    
 }

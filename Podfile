@@ -7,4 +7,5 @@ target 'recipe.ios' do
 
   # Pods for recipe.ios
   pod 'Alamofire', '~> 4.5'
+  pod 'SDWebImage'
 end

@@ -45,7 +45,10 @@ class LoginViewController: UIViewController {
                         // I assume we need to save this token in userDefaults?
                         // where to go from here??
                         // segue to next Viewcontroller?
-                        self.showSimpleAlert(title: "Token Received", message: tokenResponse!.token)
+                        //self.showSimpleAlert(title: "Token Received", message: tokenResponse!.token)
+                        
+                        // the user is loggedIn, so
+                        self.performSegue(withIdentifier: "loggedIn", sender: self)
                     } else {
                         
                         self.showSimpleAlert(title: "Error", message: errorMessage)
