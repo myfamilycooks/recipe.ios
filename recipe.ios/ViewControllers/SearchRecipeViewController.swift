@@ -53,13 +53,13 @@ class SearchRecipeViewController: UIViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if(segue.identifier == "selectRecipe"){
-            if let recipeDetails = segue.destination as? RecipeDetailsViewController{
+            if let recipeDetails = segue.destination as? RecipeDetailsTabViewController{
                 
                 if let selectedTableIndex = self.searchResultsTable.indexPathForSelectedRow   {
                     
                     if let selectedRecipe = self.searchResults?.recipes[selectedTableIndex.row]{
                         recipeDetails.recipeId = selectedRecipe.id
-                        recipeDetails.recipeUrl = selectedRecipe.imageUrl
+                        recipeDetails.recipeImageUrl  = selectedRecipe.imageUrl
                     }
                 }
             }

@@ -8,12 +8,10 @@
 
 import UIKit
 
-class RecipeDetailsViewController: UIViewController {
-
-    @IBOutlet weak var descriptionLabel: UILabel!
+class RecipeDetailsTabViewController: UITabBarController {
     
     var recipeId:String!
-    var recipeUrl:String?
+    var recipeImageUrl:String?
     let spinner = UIActivityIndicatorView()
     
     override func viewDidLoad() {
@@ -22,9 +20,9 @@ class RecipeDetailsViewController: UIViewController {
         // Do any additional setup after loading the view.
         loadRecipe()
     }
-
+    
     func loadRecipe(){
-     
+        
         self.showSpinner(activityIndicator: self.spinner)
         
         RecipeService.getRecipe(recipeId: self.recipeId) { (success, errorMessage, recipe) in
@@ -44,7 +42,21 @@ class RecipeDetailsViewController: UIViewController {
     
     func bindRecipeToView(recipe:Recipe){
         self.title = recipe.title
-        self.descriptionLabel.text = recipe.description
         
+        // pass the recipe down to the children
+        if let childViewControllers = self.viewControllers{
+     
+            for childViewController in childViewControllers{
+             
+                // optional send the pic to the general vc
+                if var recipeDetailsGeneralViewController = childViewController as? RecipeDetailsGeneralViewController{
+                    recipeDetailsGeneralViewController.recipeImageUrl = self.recipeImageUrl
+                }
+                
+                if var detailsDescribable = childViewController as? RecipeDetailsDescribable{
+                    detailsDescribable.recipe = recipe
+                }
+            }
+        }
     }
 }

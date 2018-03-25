@@ -19,7 +19,7 @@ public struct Recipe : Decodable{
     
     var notes:String?
     
-    var ingrients:[RecipeIngredient]?
+    var ingredients:[RecipeIngredient]?
     
     var steps:[Step]?
     
@@ -31,23 +31,23 @@ public struct Recipe : Decodable{
 }
 
 public struct RecipeIngredient : Decodable{
-    var ordinal:Int?
+   // var ordinal:Int?
     
-    var recipeId:String?
+    //var recipeId:String?
     
-    var qunatity:Double?
+    //var qunatity:Double?
     
-    var units:String?
+   // var units:String?
     
     var ingredient:String?
     
-    var notes:String?
+    //var notes:String?
     
-    var id:String?
+    //var id:String?
     
-    var createdBy:String?
+    //var createdBy:String?
     
-    var modifiedby:String?
+    //var modifiedby:String?
 }
 
 public struct Step: Decodable {
