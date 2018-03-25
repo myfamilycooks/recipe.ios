@@ -10,28 +10,41 @@ import UIKit
 
 class RecipeDetailsViewController: UIViewController {
 
+    @IBOutlet weak var descriptionLabel: UILabel!
+    
     var recipeId:String!
+    var recipeUrl:String?
+    let spinner = UIActivityIndicatorView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         // Do any additional setup after loading the view.
+        loadRecipe()
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    func loadRecipe(){
+     
+        self.showSpinner(activityIndicator: self.spinner)
+        
+        RecipeService.getRecipe(recipeId: self.recipeId) { (success, errorMessage, recipe) in
+            self.stopSpinner(activityIndicatory: self.spinner)
+            
+            if(success){
+                
+                if let recipe = recipe{
+                    self.bindRecipeToView(recipe: recipe)
+                }
+                
+            } else {
+                self.showSimpleAlert(title: "Error", message: errorMessage)
+            }
+        }
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    func bindRecipeToView(recipe:Recipe){
+        self.title = recipe.title
+        self.descriptionLabel.text = recipe.description
+        
     }
-    */
-
 }

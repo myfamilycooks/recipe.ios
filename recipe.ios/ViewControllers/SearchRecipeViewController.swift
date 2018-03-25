@@ -14,17 +14,20 @@ class SearchRecipeViewController: UIViewController {
     var searchResults: RecipeSearchResultsResponse?
     let spinner:UIActivityIndicatorView = UIActivityIndicatorView()
     
-    @IBOutlet weak var searchBar: UISearchBar!
+    //var searchBar = UISearchBar()
+    //@IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var searchResultsTable: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupSearchBar()
+       // setupSearchBar()
         
         // Do any additional setup after loading the view.
     }
     
     private func setupSearchBar(){
+        
+        //self.searchController.delegate = self;
         
         // tells the system we are implementing the UISearchResultUpdating protocol
         self.searchController.searchResultsUpdater = self
@@ -37,6 +40,7 @@ class SearchRecipeViewController: UIViewController {
         
         // adding the search controller to the nav
         self.navigationItem.searchController = self.searchController
+        //self.navigationItem.titleView = self.searchController
         
         // ensure that the search bar does not remain on the screen if the user navigates to another view controller
         self.definesPresentationContext = true
@@ -47,6 +51,20 @@ class SearchRecipeViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if(segue.identifier == "selectRecipe"){
+            if let recipeDetails = segue.destination as? RecipeDetailsViewController{
+                
+                if let selectedTableIndex = self.searchResultsTable.indexPathForSelectedRow   {
+                    
+                    if let selectedRecipe = self.searchResults?.recipes[selectedTableIndex.row]{
+                        recipeDetails.recipeId = selectedRecipe.id
+                        recipeDetails.recipeUrl = selectedRecipe.imageUrl
+                    }
+                }
+            }
+        }
+    }
 }
 
 extension SearchRecipeViewController: UISearchResultsUpdating{

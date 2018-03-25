@@ -9,7 +9,7 @@
 import Foundation
 import Alamofire
 
-public class SearchService{
+public struct SearchService{
     
     public static func performSearch(searchText:String, completed:@escaping(_ suceeded:Bool, _ errorMessage:String?, _ searchReslt:RecipeSearchResultsResponse?)->()){
     

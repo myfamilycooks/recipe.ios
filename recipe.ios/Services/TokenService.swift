@@ -9,7 +9,7 @@
 import Foundation
 import Alamofire
 
-public class TokenService{
+public struct TokenService{
     
     var baseUrl:String
     

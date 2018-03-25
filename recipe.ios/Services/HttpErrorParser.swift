@@ -9,7 +9,7 @@
 import Foundation
 
 
-public class HttpErrorParser{
+public struct HttpErrorParser{
     
     public static func parse(data:Data?) -> BistroFiftyTwoError?{
         

@@ -2,19 +2,65 @@
 //  Recipe.swift
 //  recipe.ios
 //
-//  Created by Shaun Sargent on 10/8/16.
-//  Copyright © 2016 My Family Cooks. All rights reserved.
+//  Created by Shaun Sargent on 3/24/18.
+//  Copyright © 2018 My Family Cooks. All rights reserved.
 //
 
 import Foundation
 
-public struct Recipe{
+public struct Recipe : Decodable{
+    var title:String?
+    
+    var key:String?
+    
+    var tags:String?
+    
+    var description:String?
+    
+    var notes:String?
+    
+    var ingrients:[RecipeIngredient]?
+    
+    var steps:[Step]?
+    
+    var id:String?
+    
+    var createdBy:String?
+    
+    var modifiedBy:String?
+}
 
-    var recipeId: Int;
+public struct RecipeIngredient : Decodable{
+    var ordinal:Int?
     
-    var name:String;
+    var recipeId:String?
     
-    var description: String;
+    var qunatity:Double?
     
-    var ImageUrl: String;
+    var units:String?
+    
+    var ingredient:String?
+    
+    var notes:String?
+    
+    var id:String?
+    
+    var createdBy:String?
+    
+    var modifiedby:String?
+}
+
+public struct Step: Decodable {
+    var ordinal:Int?
+    
+    var recipeId:String?
+    
+    var instructions:String?
+    
+    var id:String?
+    
+    var createdBy:String?
+    
+    var modifiedby:String?
+    
 }

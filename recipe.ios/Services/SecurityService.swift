@@ -8,7 +8,7 @@
 
 import Foundation
 import Alamofire
-public class SecurityService{
+public struct SecurityService{
     
     static func getHeaders() -> HTTPHeaders{
         var headers = HTTPHeaders()

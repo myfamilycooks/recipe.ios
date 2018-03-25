@@ -8,11 +8,10 @@
 
 import Foundation
 
-public class Configuration{
+public struct Configuration{
     
     
     // TODO: pull these from the pList.
-    
     static var webUrl: String{
         get{
             return "http://192.168.86.33:60679"
